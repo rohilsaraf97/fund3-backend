@@ -1,3 +1,5 @@
+/* eslint-disable no-process-exit */
+// eslint-disable-next-line node/no-unpublished-require
 const { ethers } = require('hardhat')
 
 async function main() {

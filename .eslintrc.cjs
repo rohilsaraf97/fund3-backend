@@ -10,7 +10,7 @@ module.exports = {
   },
   parserOptions: {
     ecmaVersion: 11,
-    sourceType: 'module',
+    sourceType: 'commonjs',
   },
   rules: {
     'unicorn/no-array-reduce': 'off',

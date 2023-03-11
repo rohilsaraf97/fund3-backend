@@ -1,25 +1,29 @@
-const { Donation } = require('../../../models')
+const { Donation, User } = require('../../../models')
 const mongoose = require('mongoose')
+const { createNewNFT } = require('../../../services')
 
 const addDonationController = async (req, res) => {
   const { amount, txHash, campaign_id } = req.body
   const { _id } = req.userData
   const userId = mongoose.Types.ObjectId(_id)
   const campaignId = mongoose.Types.ObjectId(campaign_id)
+  const foundUser = await User.findById(userId)
+  const { address } = foundUser
 
   try {
-    const newDonation = await Donation.create({
+    const donationObj = {
       amount,
       txHash,
-      donor: userId,
+      donor: address,
       campaign: campaignId,
+    }
+    const { tokenURI, NFTtxHash } = await createNewNFT(donationObj)
+    const newDonation = await Donation.create({
+      ...donationObj,
+      donor: userId,
+      tokenURI,
+      NFTtxHash,
     })
-    // const currentUser = await User.findById(_id)
-    // await currentUser.donations.push(newDonation)
-    // await currentUser.save()
-    // const currentCampaign = await Campaign.findById(campaign_id)
-    // await currentCampaign.donations.push(newDonation)
-    // await currentCampaign.save()
     res.send(newDonation)
   } catch (error) {
     res.status(500).send(error)

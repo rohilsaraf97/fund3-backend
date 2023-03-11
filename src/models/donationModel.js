@@ -8,6 +8,8 @@ const donationSchema = Schema({
   },
   txHash: String,
   campaign: { type: Schema.Types.ObjectId, ref: 'Campaign' },
+  tokenURI: String,
+  NFTtxHash: String,
 })
 
 const Donation = model('Donation', donationSchema)
