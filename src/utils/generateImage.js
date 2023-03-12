@@ -2,7 +2,10 @@ const puppeteer = require('puppeteer')
 const certHTML = require('./certHTML')
 
 const generateimage = async (donation) => {
-  const browser = await puppeteer.launch()
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox'], // Required.
+    headless: true,
+  })
   const page = await browser.newPage()
   await page.setViewport({
     width: 960,
